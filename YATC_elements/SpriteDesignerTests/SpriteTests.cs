@@ -54,6 +54,21 @@ namespace SpriteDesigner.Tests
             var tileMap = mapFactory.GetTileMap(map, 5, 5);
             var bitmap = tileMap.Render();
             bitmap.Save("test.bmp");
-        }           
+        }
+
+        [TestMethod]
+        public void RenderTest2()
+        {
+            var tileString1 = "1111111111000011101001011001100110011001101001011100001111111111";
+            var tileString2 = "2121212133000033303003033003300330033003303003033300003312121212";
+            var map = "1111110002200022000111111";
+            var list = new TileList();
+            list.Add(tileString1);
+            list.Add(tileString2);
+            var mapFactory = new TileMapFactory(list);
+            var tileMap = mapFactory.GetTileMap(map, 5, 5);
+            var bitmap = tileMap.Render();
+            bitmap.Save("test2.bmp");
+        }
     }
 }
