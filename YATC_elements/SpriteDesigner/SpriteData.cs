@@ -8,11 +8,32 @@ namespace SpriteDesigner
 {
     public enum Palette : byte { Nothing = 0, Black = 1, Blue = 2, Red = 3, Magenta = 4, Green = 5, Cyan = 6, Yellow = 7, White = 8, Grey = 9, LightBlue = 10, LightRed = 11, Pink = 12, LightGreen = 13, Orange = 14, Brown = 15 }
 
+
     public class PaletteUtility
     {
         public static Color GetColour(byte colour)
         {
             return GetColor((Palette)colour);
+        }
+
+        public static Palette GetPalette(Color colour)
+        {
+            if (colour == Color.Black) return Palette.Black;
+            if (colour == Color.Blue) return Palette.Blue;
+            if (colour == Color.Brown) return Palette.Brown;
+            if (colour == Color.Cyan) return Palette.Cyan;
+            if (colour == Color.Green) return Palette.Green;
+            if (colour == Color.Gray) return Palette.Grey;
+            if (colour == Color.LightBlue) return Palette.LightBlue;
+            if (colour == Color.LightGreen) return Palette.LightGreen;
+            if (colour == Color.OrangeRed) return Palette.LightRed;
+            if (colour == Color.Magenta) return Palette.Magenta;
+            if (colour == Color.Orange) return Palette.Orange;
+            if (colour == Color.LightPink) return Palette.Pink;
+            if (colour == Color.Red) return Palette.Red;
+            if (colour == Color.White) return Palette.White;
+            if (colour == Color.Yellow) return Palette.Yellow;
+            return Palette.Nothing;
         }
 
         public static Color GetColor(Palette colour)
@@ -55,6 +76,9 @@ namespace SpriteDesigner
         }
     }
 
+    /// <summary>
+    /// Basic graphic class - implements the common functionality we want to re-use
+    /// </summary>
     public class Sprite
     {
         public byte Width { get; private set; }
@@ -94,9 +118,9 @@ namespace SpriteDesigner
                 if (ch == '\r' || ch == '\n')
                     continue;
 
-                var b = byte.Parse(ch.ToString());
+                var b = byte.Parse(ch.ToString(), System.Globalization.NumberStyles.HexNumber);
 
-                Data[x, y] = b;
+                Data[y, x] = b;
 
                 x++;
                 if (x == Width)
@@ -114,7 +138,7 @@ namespace SpriteDesigner
             for (var x = 0; x < Width; x++)
             {
                 for (var y = 0; y < Height; y++)
-                    result.Append(Data[x, y]);
+                    result.Append(Data[y, x].ToString("X"));
                 result.AppendLine(string.Empty);
             }
 
@@ -127,22 +151,37 @@ namespace SpriteDesigner
 
     public class Tile : Sprite
     {
-        public readonly static byte TileWidth = 8;
-        public readonly static byte TileHeight = 8;
+        public readonly static byte TileWidth = 16;
+        public readonly static byte TileHeight = 16;
 
         public Tile() : base(TileWidth, TileHeight)
         {
 
         }
 
-        public Bitmap Render()
+        public Bitmap Render(byte scale = 1)
         {
-            var result = new Bitmap(Width, Height);
+
+            var result = scale <= 1 ? new Bitmap(Width, Height) : new Bitmap(Width * scale, Height * scale);
 
             for (var x = 0; x < Width; x++)
             {
                 for (var y = 0; y < Height; y++)
-                    result.SetPixel(x, y, PaletteUtility.GetColour(Data[x, y]));
+                {
+                    if (scale <= 1)
+                    {
+                        result.SetPixel(x, y, PaletteUtility.GetColour(Data[x, y]));
+                    }
+                    else
+                    {
+                        using (var g = Graphics.FromImage(result))
+                        {
+                            var brush = new SolidBrush(PaletteUtility.GetColour(Data[x, y]));
+
+                            g.FillRectangle(brush, (x * scale), (y * scale), scale, scale);
+                        }
+                    }
+                }
             }
 
             return result;
