@@ -7,7 +7,7 @@ namespace SpriteDesigner
     /// <summary>
     /// EventArgs for the custom grid click event.
     /// </summary>
-    public class UIGridClickEventArgs : EventArgs
+    public class CellClickEventArgs : EventArgs
     {
         public CellPanel Affected { get; set; }
     }
@@ -15,7 +15,7 @@ namespace SpriteDesigner
     /// <summary>
     /// Event to handle custom grid clicks
     /// </summary>
-    public delegate void CellEventHandler(object sender, UIGridClickEventArgs e);
+    public delegate void CellEventHandler(object sender, CellClickEventArgs e);
 
     /// <summary>
     /// Simple class to create a grid in UI with basic "click" functionality.
@@ -57,7 +57,7 @@ namespace SpriteDesigner
 
             pixel.Click += (s, e) =>
             {
-                CellClick?.Invoke(e, new UIGridClickEventArgs { Affected = pixel });
+                CellClick?.Invoke(e, new CellClickEventArgs { Affected = pixel });
             };
 
             pixels[x, y] = pixel;
@@ -79,6 +79,9 @@ namespace SpriteDesigner
         }
     }
 
+    /// <summary>
+    /// Manages the tile data being edited
+    /// </summary>
     public class TileUIGridManager : UiGridManager
     {
         public TileUIGridManager(Control target, byte pixelWidth = 15) : base(target, pixelWidth, Tile.TileWidth, Tile.TileHeight)
@@ -97,9 +100,20 @@ namespace SpriteDesigner
 
             return result;
         }
+
+        public void SetTile(Tile value)
+        {
+            for (byte x = 0; x < Width; x++)
+                for (byte y = 0; y < Height; y++)
+                {
+                    pixels[x, y].BackColor = PaletteUtility.GetColor((Palette)value.Data[x,y]);
+                }
+        }
     }
 
-
+    /// <summary>
+    /// Manages the palette UI being displayed
+    /// </summary>
     public class PaletteUIGridManager : UiGridManager
     {
         public PaletteUIGridManager(Control target, byte pixelWidth = 15) : base(target, pixelWidth, 2, 8)
@@ -126,6 +140,38 @@ namespace SpriteDesigner
                 e.Graphics.DrawLine(Pens.Red, 0, 0, p.Width, p.Height);
                 e.Graphics.DrawLine(Pens.Red, p.Width - 2, 0, 0, p.Height -2);
             };
+        }
+    }
+
+    public class TileListUIGridManager : UiGridManager
+    {
+        TileList tiles;
+
+        public TileListUIGridManager(Control target, byte pixelWidth = 16) : base(target, pixelWidth, 5, 2)
+        {
+            tiles = new TileList();
+            //prepopulate the list with the number of tiles we defned slots for
+            byte x = 0;
+            byte y = 0;
+            for(byte i = 0; i < Width+ Height; i++)
+            {
+                var tile = new Tile();
+
+                pixels[x, y].Paint += (s, e) =>
+                {
+                    var bitmap = tiles[i].Render(1);
+                    e.Graphics.DrawImage(bitmap, 0, 0);
+                };
+
+                tiles.Add(tile);
+
+                x++;
+                if (x == Width)
+                {
+                    x = 0;
+                    y++;
+                }
+            }
         }
     }
 

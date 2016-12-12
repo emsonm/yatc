@@ -13,6 +13,8 @@ namespace SpriteDesigner
     {
         TileUIGridManager tileManager;
         PaletteUIGridManager paletteManager;
+        TileListUIGridManager tileListManager;
+
 
         public MainForm()
         {
@@ -23,15 +25,24 @@ namespace SpriteDesigner
 
             paletteManager = new PaletteUIGridManager(palettePanel, 25);
             paletteManager.CellClick += PaletteManager_CellClick;
+
+            tileListManager = new TileListUIGridManager(tileListPanel);
+            tileListManager.CellClick += TileListManager_CellClick;
             
         }
 
-        void PaletteManager_CellClick(object sender, UIGridClickEventArgs e)
+        private void TileListManager_CellClick(object sender, CellClickEventArgs e)
+        {
+            var tile = tileManager.GetTile();
+
+        }
+
+        void PaletteManager_CellClick(object sender, CellClickEventArgs e)
         {
             selectedColourPanel.BackColor = e.Affected.BackColor;
         }
 
-        void Manager_UIGridClick(object sender, UIGridClickEventArgs e)
+        void Manager_UIGridClick(object sender, CellClickEventArgs e)
         {
             e.Affected.BackColor = selectedColourPanel.BackColor;
         }
