@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteDesigner", "SpriteDesigner\SpriteDesigner.csproj", "{3E99678A-DE62-4292-80E7-4A69E55A8295}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D065AEAF-0F7D-4A4F-BC0C-C0897AAEA98F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteDesignerTests", "SpriteDesignerTests\SpriteDesignerTests.csproj", "{DCEE704F-BA59-4183-96CF-C5F0F40B8BD4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7A48961F-5228-40A1-BC2F-6341820B0AFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E99678A-DE62-4292-80E7-4A69E55A8295}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E99678A-DE62-4292-80E7-4A69E55A8295}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E99678A-DE62-4292-80E7-4A69E55A8295}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E99678A-DE62-4292-80E7-4A69E55A8295}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCEE704F-BA59-4183-96CF-C5F0F40B8BD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCEE704F-BA59-4183-96CF-C5F0F40B8BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCEE704F-BA59-4183-96CF-C5F0F40B8BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCEE704F-BA59-4183-96CF-C5F0F40B8BD4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3E99678A-DE62-4292-80E7-4A69E55A8295} = {D065AEAF-0F7D-4A4F-BC0C-C0897AAEA98F}
+		{DCEE704F-BA59-4183-96CF-C5F0F40B8BD4} = {7A48961F-5228-40A1-BC2F-6341820B0AFF}
+	EndGlobalSection
+EndGlobal
