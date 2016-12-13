@@ -205,6 +205,13 @@ namespace SpriteDesigner
 
                 return tiles[index - 1];
             }
+            set
+            {
+                if (index > 0 || index <= tiles.Count)
+                {
+                    tiles[index - 1] = value;
+                }
+            }
         }
 
         public byte Add(Tile value)

@@ -73,6 +73,7 @@ namespace SpriteDesigner
             {
                 for (byte y = 0; y < Height; y++)
                 {
+                    var index = (y * Width) + x;
                     MakePixel(x, y, PixelWidth);
                 }
             }
@@ -106,7 +107,7 @@ namespace SpriteDesigner
             for (byte x = 0; x < Width; x++)
                 for (byte y = 0; y < Height; y++)
                 {
-                    pixels[x, y].BackColor = PaletteUtility.GetColor((Palette)value.Data[x,y]);
+                    pixels[x, y].BackColor = PaletteUtility.GetColor((Palette)value.Data[x, y]);
                 }
         }
     }
@@ -138,7 +139,7 @@ namespace SpriteDesigner
             p.Paint += (s, e) =>
             {
                 e.Graphics.DrawLine(Pens.Red, 0, 0, p.Width, p.Height);
-                e.Graphics.DrawLine(Pens.Red, p.Width - 2, 0, 0, p.Height -2);
+                e.Graphics.DrawLine(Pens.Red, p.Width - 2, 0, 0, p.Height - 2);
             };
         }
     }
@@ -146,21 +147,42 @@ namespace SpriteDesigner
     public class TileListUIGridManager : UiGridManager
     {
         TileList tiles;
+        byte selectedIndex = 0;
 
-        public TileListUIGridManager(Control target, byte pixelWidth = 16) : base(target, pixelWidth, 5, 2)
+        public TileListUIGridManager(Control target, byte pixelWidth = 25) : base(target, pixelWidth, 5, 2)
         {
             tiles = new TileList();
-            //prepopulate the list with the number of tiles we defned slots for
+            //pre-populate the list with the number of tiles we defined slots for
             byte x = 0;
             byte y = 0;
-            for(byte i = 0; i < Width+ Height; i++)
+            for (byte i = 0; i < (Height * Width); i++)
             {
                 var tile = new Tile();
 
-                pixels[x, y].Paint += (s, e) =>
+                var pixel = pixels[x, y];
+                var scale = 3f;
+
+                pixel.Paint += (s, e) =>
                 {
-                    var bitmap = tiles[i].Render(1);
-                    e.Graphics.DrawImage(bitmap, 0, 0);
+                    var panel = (CellPanel)s;
+
+                    var ptile = GetTile(panel.X, panel.Y, false);
+
+                    for (var ix = 0; ix < ptile.Width; ix++)
+                    {
+                        for (var iy = 0; iy < ptile.Height; iy++)
+                        {
+                            var brush = new SolidBrush(PaletteUtility.GetColour(ptile.Data[ix, iy]));
+
+                            e.Graphics.FillRectangle(brush, (ix * scale), (iy * scale), scale, scale);
+                        }
+                    }
+
+                    var index = (panel.Y * Width) + panel.X;
+                    if ((byte)index == selectedIndex)
+                    {
+                        e.Graphics.DrawRectangle(Pens.Red, 1, 1, pixelWidth - 5, pixelWidth - 5);
+                    }
                 };
 
                 tiles.Add(tile);
@@ -173,6 +195,47 @@ namespace SpriteDesigner
                 }
             }
         }
+
+        public void Invalidate()
+        {
+            foreach (var pixel in pixels)
+            {
+                pixel.Invalidate();
+            }
+        }
+
+        public Tile GetTile(byte x, byte y, bool setIndex = true)
+        {
+            var index = (Width * y) + x;
+            return GetTile((byte)(index + 1), setIndex);
+        }
+
+        Tile GetTile(byte index, bool setIndex = true)
+        {
+            if (setIndex) selectedIndex = (byte)(index - 1);
+            return tiles[index];
+        }
+
+        public void SetTile(byte x, byte y, Tile value)
+        {
+            var index = ((Width * y) + x) + 1;
+            SetTile((byte)index, value);
+        }
+
+        void SetTile(byte index, Tile value)
+        {
+            tiles[index] = value;
+        }
+
+        public Tile GetSelectedTile()
+        {
+            return tiles[selectedIndex];
+        }
+
+        public byte SelectedIndex
+        {
+            get { return selectedIndex; }
+        }
     }
 
     /// <summary>
@@ -182,5 +245,7 @@ namespace SpriteDesigner
     {
         public byte X { get; internal set; }
         public byte Y { get; internal set; }
+
+        public byte Index { get; internal set; }
     }
 }

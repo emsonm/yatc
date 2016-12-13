@@ -54,18 +54,18 @@
             this.spriteEditorPanel.Controls.Add(this.actualImage);
             this.spriteEditorPanel.Controls.Add(this.updateButton);
             this.spriteEditorPanel.Controls.Add(this.imagePanel);
-            this.spriteEditorPanel.Location = new System.Drawing.Point(12, 12);
+            this.spriteEditorPanel.Location = new System.Drawing.Point(8, 8);
+            this.spriteEditorPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.spriteEditorPanel.Name = "spriteEditorPanel";
-            this.spriteEditorPanel.Size = new System.Drawing.Size(914, 524);
+            this.spriteEditorPanel.Size = new System.Drawing.Size(610, 341);
             this.spriteEditorPanel.TabIndex = 0;
             // 
             // copyButton
             // 
             this.copyButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.copyButton.Location = new System.Drawing.Point(577, 434);
-            this.copyButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.copyButton.Location = new System.Drawing.Point(385, 282);
             this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(80, 45);
+            this.copyButton.Size = new System.Drawing.Size(53, 29);
             this.copyButton.TabIndex = 23;
             this.copyButton.Text = "Copy";
             this.copyButton.UseVisualStyleBackColor = true;
@@ -77,23 +77,21 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tileString.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.tileString.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tileString.Location = new System.Drawing.Point(679, 300);
-            this.tileString.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.tileString.Location = new System.Drawing.Point(453, 195);
             this.tileString.Multiline = true;
             this.tileString.Name = "tileString";
             this.tileString.ReadOnly = true;
             this.tileString.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.tileString.Size = new System.Drawing.Size(227, 214);
+            this.tileString.Size = new System.Drawing.Size(152, 140);
             this.tileString.TabIndex = 22;
             this.tileString.WordWrap = false;
             // 
             // palettePanel
             // 
             this.palettePanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.palettePanel.Location = new System.Drawing.Point(517, 62);
-            this.palettePanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.palettePanel.Location = new System.Drawing.Point(345, 40);
             this.palettePanel.Name = "palettePanel";
-            this.palettePanel.Size = new System.Drawing.Size(140, 365);
+            this.palettePanel.Size = new System.Drawing.Size(93, 237);
             this.palettePanel.TabIndex = 21;
             // 
             // selectedColourPanel
@@ -101,20 +99,18 @@
             this.selectedColourPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.selectedColourPanel.BackColor = System.Drawing.Color.Black;
             this.selectedColourPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.selectedColourPanel.Location = new System.Drawing.Point(517, 11);
-            this.selectedColourPanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.selectedColourPanel.Location = new System.Drawing.Point(345, 7);
             this.selectedColourPanel.Name = "selectedColourPanel";
-            this.selectedColourPanel.Size = new System.Drawing.Size(36, 37);
+            this.selectedColourPanel.Size = new System.Drawing.Size(25, 25);
             this.selectedColourPanel.TabIndex = 20;
             // 
             // previewImage
             // 
             this.previewImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.previewImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.previewImage.Location = new System.Drawing.Point(679, 62);
-            this.previewImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.previewImage.Location = new System.Drawing.Point(453, 40);
             this.previewImage.Name = "previewImage";
-            this.previewImage.Size = new System.Drawing.Size(224, 230);
+            this.previewImage.Size = new System.Drawing.Size(150, 150);
             this.previewImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.previewImage.TabIndex = 19;
             this.previewImage.TabStop = false;
@@ -123,10 +119,9 @@
             // 
             this.actualImage.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.actualImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.actualImage.Location = new System.Drawing.Point(801, 9);
-            this.actualImage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.actualImage.Location = new System.Drawing.Point(534, 6);
             this.actualImage.Name = "actualImage";
-            this.actualImage.Size = new System.Drawing.Size(44, 45);
+            this.actualImage.Size = new System.Drawing.Size(30, 30);
             this.actualImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.actualImage.TabIndex = 18;
             this.actualImage.TabStop = false;
@@ -134,10 +129,9 @@
             // updateButton
             // 
             this.updateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.updateButton.Location = new System.Drawing.Point(679, 9);
-            this.updateButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.updateButton.Location = new System.Drawing.Point(453, 6);
             this.updateButton.Name = "updateButton";
-            this.updateButton.Size = new System.Drawing.Size(112, 43);
+            this.updateButton.Size = new System.Drawing.Size(75, 28);
             this.updateButton.TabIndex = 16;
             this.updateButton.Text = "Preview";
             this.updateButton.UseVisualStyleBackColor = true;
@@ -146,28 +140,27 @@
             // imagePanel
             // 
             this.imagePanel.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imagePanel.Location = new System.Drawing.Point(6, 8);
-            this.imagePanel.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.imagePanel.Location = new System.Drawing.Point(4, 5);
             this.imagePanel.Name = "imagePanel";
-            this.imagePanel.Size = new System.Drawing.Size(507, 497);
+            this.imagePanel.Size = new System.Drawing.Size(338, 323);
             this.imagePanel.TabIndex = 17;
             // 
             // tileListPanel
             // 
-            this.tileListPanel.Location = new System.Drawing.Point(12, 542);
+            this.tileListPanel.Location = new System.Drawing.Point(8, 352);
+            this.tileListPanel.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.tileListPanel.Name = "tileListPanel";
-            this.tileListPanel.Size = new System.Drawing.Size(914, 131);
+            this.tileListPanel.Size = new System.Drawing.Size(609, 142);
             this.tileListPanel.TabIndex = 1;
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(944, 685);
+            this.ClientSize = new System.Drawing.Size(629, 505);
             this.Controls.Add(this.tileListPanel);
             this.Controls.Add(this.spriteEditorPanel);
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.MinimumSize = new System.Drawing.Size(949, 562);
+            this.MinimumSize = new System.Drawing.Size(638, 379);
             this.Name = "MainForm";
             this.Text = "Sprite Designer";
             this.spriteEditorPanel.ResumeLayout(false);

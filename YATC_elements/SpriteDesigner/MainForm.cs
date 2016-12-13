@@ -15,26 +15,36 @@ namespace SpriteDesigner
         PaletteUIGridManager paletteManager;
         TileListUIGridManager tileListManager;
 
-
+        byte tileList_x = 0;
+        byte tileList_y = 0;
         public MainForm()
         {
             InitializeComponent();
 
+            tileListManager = new TileListUIGridManager(tileListPanel, 50);
+            tileListManager.CellClick += TileListManager_CellClick;
+
             tileManager = new TileUIGridManager(imagePanel, 20);
             tileManager.CellClick += Manager_UIGridClick;
 
+            tileManager.SetTile(tileListManager.GetTile(tileList_x, tileList_y));
+
             paletteManager = new PaletteUIGridManager(palettePanel, 25);
             paletteManager.CellClick += PaletteManager_CellClick;
-
-            tileListManager = new TileListUIGridManager(tileListPanel);
-            tileListManager.CellClick += TileListManager_CellClick;
             
         }
 
-        private void TileListManager_CellClick(object sender, CellClickEventArgs e)
+        void TileListManager_CellClick(object sender, CellClickEventArgs e)
         {
             var tile = tileManager.GetTile();
+            tileListManager.SetTile(tileList_x, tileList_y, tile);
 
+            tileList_x = e.Affected.X;
+            tileList_y = e.Affected.Y;
+
+            tileManager.SetTile(tileListManager.GetTile(tileList_x, tileList_y));
+
+            tileListManager.Invalidate();
         }
 
         void PaletteManager_CellClick(object sender, CellClickEventArgs e)
