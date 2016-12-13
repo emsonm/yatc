@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SpriteDesigner
@@ -105,10 +107,12 @@ namespace SpriteDesigner
         public void SetTile(Tile value)
         {
             for (byte x = 0; x < Width; x++)
+            {
                 for (byte y = 0; y < Height; y++)
                 {
                     pixels[x, y].BackColor = PaletteUtility.GetColor((Palette)value.Data[x, y]);
                 }
+            }
         }
     }
 
@@ -149,7 +153,12 @@ namespace SpriteDesigner
         TileList tiles;
         byte selectedIndex = 0;
 
-        public TileListUIGridManager(Control target, byte pixelWidth = 25) : base(target, pixelWidth, 5, 2)
+        public TileListUIGridManager(Control target, byte pixelWidth = 25) : base(target, pixelWidth, 12, 3)
+        {
+            Init(pixelWidth);
+        }
+
+        void Init(byte pixelWidth)
         {
             tiles = new TileList();
             //pre-populate the list with the number of tiles we defined slots for
@@ -183,6 +192,8 @@ namespace SpriteDesigner
                     {
                         e.Graphics.DrawRectangle(Pens.Red, 1, 1, pixelWidth - 5, pixelWidth - 5);
                     }
+
+                    e.Graphics.DrawString($"({panel.Y},{panel.X})", SystemFonts.DialogFont, Brushes.Gray, 0, 0, StringFormat.GenericDefault);
                 };
 
                 tiles.Add(tile);
@@ -207,7 +218,9 @@ namespace SpriteDesigner
         public Tile GetTile(byte x, byte y, bool setIndex = true)
         {
             var index = (Width * y) + x;
-            return GetTile((byte)(index + 1), setIndex);
+            var result = GetTile((byte)(index + 1), setIndex);
+            //pixels[x, y].Invalidate();
+            return result;
         }
 
         Tile GetTile(byte index, bool setIndex = true)
@@ -220,6 +233,7 @@ namespace SpriteDesigner
         {
             var index = ((Width * y) + x) + 1;
             SetTile((byte)index, value);
+            //pixels[x, y].Invalidate();
         }
 
         void SetTile(byte index, Tile value)
@@ -235,6 +249,28 @@ namespace SpriteDesigner
         public byte SelectedIndex
         {
             get { return selectedIndex; }
+        }
+
+        public TileData[] GetTileData()
+        {
+            var result = new List<TileData>();
+            for (byte x = 0; x < Width; x++)
+            {
+                for (byte y = 0; y < Height; y++)
+                {
+                    result.Add(new TileData { X = x, Y = y, Data = GetTile(x, y, false)?.ToString() });
+                }
+            }
+
+            return result.ToArray();
+        }
+
+        public void SetTileData(IEnumerable<TileData> tiles)
+        {
+            foreach(var tileData in tiles)
+            {             
+                SetTile(tileData.X, tileData.Y, new Tile(tileData));
+            }
         }
     }
 

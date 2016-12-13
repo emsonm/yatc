@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace SpriteDesigner
 {
@@ -131,6 +133,28 @@ namespace SpriteDesigner
             }
         }
 
+        public static void ConvertToData(string data, byte width, Action<byte, byte, byte> setValue)
+        {
+            byte x = 0;
+            byte y = 0;
+            foreach (var ch in data)
+            {
+                if (ch == '\r' || ch == '\n')
+                    continue;
+
+                var b = byte.Parse(ch.ToString(), System.Globalization.NumberStyles.HexNumber);
+
+                setValue(y, x,  b);
+
+                x++;
+                if (x == width)
+                {
+                    x = 0;
+                    y++;
+                }
+            }
+        }
+
         public override string ToString()
         {
             var result = new StringBuilder();
@@ -139,6 +163,20 @@ namespace SpriteDesigner
             {
                 for (var y = 0; y < Height; y++)
                     result.Append(Data[y, x].ToString("X"));
+                result.AppendLine(string.Empty);
+            }
+
+            return result.ToString();
+        }
+
+        public static string ConvertToString(byte[,] data, byte width, byte height)
+        {
+            var result = new StringBuilder();
+
+            for (var x = 0; x < width; x++)
+            {
+                for (var y = 0; y < height; y++)
+                    result.Append(data[y, x].ToString("X"));
                 result.AppendLine(string.Empty);
             }
 
@@ -157,6 +195,11 @@ namespace SpriteDesigner
         public Tile() : base(TileWidth, TileHeight)
         {
 
+        }
+
+        public Tile(TileData tile) : base(TileWidth, TileHeight)
+        {
+            FromString(tile.Data);
         }
 
         public Bitmap Render(byte scale = 1)
@@ -185,6 +228,58 @@ namespace SpriteDesigner
             }
 
             return result;
+        }
+    }
+
+    [XmlType("Tile")]
+    public class TileData
+    {
+        [XmlAttribute("x")]
+        public byte X { get; set; }
+        [XmlAttribute("y")]
+        public byte Y { get; set; }
+        [XmlAttribute("data")]
+        public string Data { get; set; }
+    }
+
+    [Serializable]
+    public class Sprites
+    {
+        public List<TileData> Tiles { get; set; }
+
+        public static Sprites Read(string path)
+        {
+            Sprites result = null;
+
+            using (var file = System.IO.File.OpenRead(path))
+            {
+                var serializer = new XmlSerializer(typeof(Sprites));
+                result = (Sprites)serializer.Deserialize(file);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Revised. Now saves the file in a backwardly compatible format
+        /// </summary>
+        public static void Write(string path, Sprites sprites)
+        {
+            using (var file = System.IO.File.Create(path))
+            {
+                var settings = new XmlWriterSettings();
+                settings.Encoding = Encoding.UTF8;
+                settings.OmitXmlDeclaration = false;
+
+                using (var writer = XmlWriter.Create(file, settings))
+                {
+                    var ns = new XmlSerializerNamespaces();
+                    ns.Add("", "");
+
+                    var serializer = new XmlSerializer(typeof(Sprites));
+                    serializer.Serialize(writer, sprites, ns);
+                }
+            }
         }
     }
 
@@ -270,9 +365,9 @@ namespace SpriteDesigner
             return Data[x, y] != null ? Data[x, y].Flag == flag : false;
         }
 
-        public Bitmap Render()
+        public Bitmap Render(byte scale = 1)
         {
-            var result = new Bitmap(Width * Tile.TileWidth, Height * Tile.TileHeight);
+            var result = new Bitmap((Width * Tile.TileWidth) * scale, (Height * Tile.TileHeight)* scale);
             result.MakeTransparent(Color.Empty);
 
             using (var g = Graphics.FromImage(result))
@@ -284,10 +379,10 @@ namespace SpriteDesigner
                         var data = Data[x, y];
                         if (data != null)
                         {
-                            var tile = data.Render();
+                            var tile = data.Render(scale);
                             if (tile != null)
                             {
-                                g.DrawImage(tile, x * Tile.TileWidth, y * Tile.TileHeight);
+                                g.DrawImage(tile, (x * Tile.TileWidth) * scale, (y * Tile.TileHeight) * scale);
                             }
                         }
                     }
@@ -297,6 +392,8 @@ namespace SpriteDesigner
             return result;
         }
     }
+
+
 
     public class TileMapFactory
     {

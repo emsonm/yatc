@@ -46,29 +46,40 @@ namespace SpriteDesigner.Tests
         [TestMethod]
         public void RenderTest()
         {
-            var tileString = "1111111111000011101001011001100110011001101001011100001111111111";
+            var tileString = "11111111111111111303030110B0B0B1133333311B0B0B011303030110B0B0B1133333311B0B0B011303030110B0B0B1111111111111111110202021120202011020202112020201111111111111111110B0B0B1103030311B0B0B011333333110B0B0B1103030311B0B0B011333333110B0B001103030311111111111111111";
             var map = "1111110001100011000111111";
             var list = new TileList();
             list.Add(tileString);
+            var bitmap = list[1].Render(5);
+            bitmap.Save("tile.bmp");
+
             var mapFactory = new TileMapFactory(list);
             var tileMap = mapFactory.GetTileMap(map, 5, 5);
-            var bitmap = tileMap.Render();
-            bitmap.Save("test.bmp");
+            bitmap = tileMap.Render();
+            bitmap.Save("map.bmp");
         }
 
         [TestMethod]
         public void RenderTest2()
         {
-            var tileString1 = "1111111111000011101001011001100110011001101001011100001111111111";
-            var tileString2 = "2121212133000033303003033003300330033003303003033300003312121212";
+            var tileString1 = "11111111111111111303030110B0B0B1133333311B0B0B011303030110B0B0B1133333311B0B0B011303030110B0B0B1111111111111111110202021120202011020202112020201111111111111111110B0B0B1103030311B0B0B011333333110B0B0B1103030311B0B0B011333333110B0B001103030311111111111111111";
+            var tileString2 = "22222222222222222303030220B0B0B2233333322B0B0B022303030220B0B0B2233333322B0B0B022303030220B0B0B2222222222222222220202022220202022020202222020202222222222222222220B0B0B2203030322B0B0B011333333110B0B0B2203030322B0B0B022333333220B0B002203030322222222222222222";
             var map = "1111110002200022000111111";
             var list = new TileList();
             list.Add(tileString1);
             list.Add(tileString2);
+            var bitmap = list[1].Render(5);
+            bitmap.Save("tile1.bmp");
+            bitmap = list[2].Render(10);
+            bitmap.Save("tile2.bmp");
+
             var mapFactory = new TileMapFactory(list);
             var tileMap = mapFactory.GetTileMap(map, 5, 5);
-            var bitmap = tileMap.Render();
-            bitmap.Save("test2.bmp");
+            bitmap = tileMap.Render();
+            bitmap.Save("map2.bmp");
+
+            bitmap = tileMap.Render(5);
+            bitmap.Save("map2_5.bmp");
         }
     }
 }

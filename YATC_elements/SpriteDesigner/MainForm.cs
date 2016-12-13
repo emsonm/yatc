@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace SpriteDesigner
@@ -31,7 +32,8 @@ namespace SpriteDesigner
 
             paletteManager = new PaletteUIGridManager(palettePanel, 25);
             paletteManager.CellClick += PaletteManager_CellClick;
-            
+
+
         }
 
         void TileListManager_CellClick(object sender, CellClickEventArgs e)
@@ -70,6 +72,11 @@ namespace SpriteDesigner
         void copyButton_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(tileString.Text);
+        }
+
+        void exportButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
